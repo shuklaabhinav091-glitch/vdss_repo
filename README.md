@@ -1,6 +1,6 @@
 # VDSS — Vanguard Dust Suppression System
 
-![CI](https://github.com/OWNER/vdss/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/shuklaabhinav091-glitch/vdss_repo/actions/workflows/ci.yml/badge.svg)
 
 **Sensor-driven, closed-loop mist suppression for jaw-crusher discharge points.**
 Edge-computed control that tracks the dust plume using wind direction and particulate readings, and aims a rotating mist ring at it, instead of spraying a fixed zone all the time.
