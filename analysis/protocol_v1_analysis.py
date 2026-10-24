@@ -10,7 +10,7 @@ Output (printed + saved to outputs/):
     mean PM10 and water used, plus the VDSS-vs-baseline deltas.
 
 Usage:
-    python protocol_v1_analysis.py data/raw/<run>.csv
+    python protocol_v1_analysis.py data/raw/*.csv     # one or many files
 """
 from __future__ import annotations
 
@@ -62,14 +62,15 @@ def summarise(trials: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
-def main(path: str) -> None:
-    src = Path(path)
-    df = pd.read_csv(src)
+def main(paths: list[str]) -> None:
+    srcs = [Path(p) for p in paths]
+    df = pd.concat([pd.read_csv(p) for p in srcs], ignore_index=True)
+    stem = srcs[0].stem if len(srcs) == 1 else f"combined_{len(srcs)}_files"
     missing = REQUIRED - set(df.columns)
     if missing:
         sys.exit(f"Missing columns: {sorted(missing)}")
 
-    if "synthetic" in src.name.lower():
+    if any("synthetic" in p.name.lower() for p in srcs):
         print("=" * 64)
         print("SYNTHETIC PIPELINE-TEST DATA — NOT A MEASUREMENT. DO NOT CITE.")
         print("=" * 64)
@@ -96,12 +97,12 @@ def main(path: str) -> None:
             print(f"  Welch t-test on PM10: t={t:.2f}, p={p:.4f}")
 
     OUT_DIR.mkdir(exist_ok=True)
-    trials.to_csv(OUT_DIR / f"{src.stem}_trials.csv", index=False)
-    summary.to_csv(OUT_DIR / f"{src.stem}_summary.csv", index=False)
+    trials.to_csv(OUT_DIR / f"{stem}_trials.csv", index=False)
+    summary.to_csv(OUT_DIR / f"{stem}_summary.csv", index=False)
     print(f"\nSaved to {OUT_DIR}/")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         sys.exit(__doc__)
-    main(sys.argv[1])
+    main(sys.argv[1:])

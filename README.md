@@ -1,5 +1,7 @@
 # VDSS — Vanguard Dust Suppression System
 
+![CI](https://github.com/OWNER/vdss/actions/workflows/ci.yml/badge.svg)
+
 **Sensor-driven, closed-loop mist suppression for jaw-crusher discharge points.**
 Edge-computed control that tracks the dust plume using wind direction and particulate readings, and aims a rotating mist ring at it, instead of spraying a fixed zone all the time.
 
@@ -47,11 +49,13 @@ Built at RIIDL, Somaiya Vidyavihar University, Mumbai. Vishwakarma Awards 2026�
 
 | Path | What lives here |
 |---|---|
-| `firmware/` | PlatformIO project for the edge controller |
+| `firmware/` | Arduino UNO edge controller (PlatformIO, VS Code) |
+| `tools/` | `serial_logger.py` — captures bench runs from the controller to CSV |
 | `analysis/` | Test Protocol v1 analysis (Python / pandas) |
-| `cad/` | Renders and neutral exports (STEP/STL) — no native SolidWorks files |
-| `hardware/` | Public-safe block diagrams only |
-| `docs/` | Test protocol, roadmap, media for the competition |
+| `hardware/` | Public-safe block diagrams |
+| `docs/` | Test protocol, IP policy |
+
+CAD renders and mechanical specs are in the Vishwakarma design-spec deck.
 
 ## Build (firmware)
 
@@ -63,13 +67,18 @@ pio run -t upload                               # flash
 pio device monitor -b 115200
 ```
 
-## Run analysis
+## Bench run → analysis
 
 ```bash
-cd analysis
 python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python protocol_v1_analysis.py data/sample/sample_run.csv
+pip install -r analysis/requirements.txt
+
+# 1. Log one trial per run (repeat for b1..bN, v1..vN)
+python tools/serial_logger.py --port /dev/cu.usbmodem1101 \
+    --trial b1 --condition baseline --seconds 60
+
+# 2. Analyse all trials together
+python analysis/protocol_v1_analysis.py analysis/data/raw/*.csv
 ```
 
 ## Roadmap

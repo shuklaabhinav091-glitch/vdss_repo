@@ -7,7 +7,6 @@ Read this before your first commit. If in doubt, ask in #firmware or #operations
 - Outcome **targets** (always labelled "design target")
 - Applications, roadmap, fabrication materials
 - Analysis code and *reviewed* results from Test Protocol v1
-- Renders and neutral CAD exports (STEP/STL) approved for sharing
 
 ## NEVER commit (NDA-gated)
 | Category | Where it lives instead |
@@ -17,7 +16,7 @@ Read this before your first commit. If in doubt, ask in #firmware or #operations
 | Hardware drivers naming specific parts | `firmware/src/hal_private.cpp` (gitignored) |
 | Wiring diagrams, pin maps | private drive / private repo |
 | BOM, part numbers, pricing | private drive |
-| Native SolidWorks files | private drive |
+| Native SolidWorks files | private drive (renders go in the deck) |
 
 In public text use functional terms: "laser-scattering PM sensor", "differential-pressure pitot pair", "servo-driven mist ring".
 
