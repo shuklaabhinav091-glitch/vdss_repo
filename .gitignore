@@ -1,0 +1,48 @@
+# ============ NDA-GATED — NEVER COMMIT ============
+firmware/include/config.h
+firmware/src/*_private.cpp
+firmware/include/*_private.h
+hardware/private/
+docs/private/
+**/BOM*.xlsx
+**/BOM*.csv
+**/*pinmap*
+**/*wiring*
+
+# ============ PlatformIO / C++ ============
+firmware/.pio/
+firmware/.vscode/
+.pio/
+
+# ============ Python ============
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Raw test data stays local until reviewed (sample/ is fine)
+analysis/data/raw/*
+!analysis/data/raw/.gitkeep
+analysis/outputs/*
+!analysis/outputs/.gitkeep
+
+# ============ CAD (SolidWorks native + temp) ============
+*.SLDPRT
+*.SLDASM
+*.SLDDRW
+*.sldprt
+*.sldasm
+*.slddrw
+~$*
+*.swp~
+
+# ============ OS / editor ============
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ============ Secrets ============
+.env
+*.key
